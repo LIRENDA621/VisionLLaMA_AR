@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "main.py", line 27, in <module>
+Traceback (most recent call last):
+      File "main.py", line 27, in <module>
+from fvcore.nn import FlopCountAnalysis
+ModuleNotFoundError: No module named 'fvcore'
+    from fvcore.nn import FlopCountAnalysis
+ModuleNotFoundError: No module named 'fvcore'
+Traceback (most recent call last):
+  File "/home/lirenda621/miniconda3/envs/vllama_py38/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/lirenda621/miniconda3/envs/vllama_py38/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/lirenda621/miniconda3/envs/vllama_py38/lib/python3.8/site-packages/torch/distributed/launch.py", line 260, in <module>
+    main()
+  File "/home/lirenda621/miniconda3/envs/vllama_py38/lib/python3.8/site-packages/torch/distributed/launch.py", line 255, in main
+    raise subprocess.CalledProcessError(returncode=process.returncode,
+subprocess.CalledProcessError: Command '['/home/lirenda621/miniconda3/envs/vllama_py38/bin/python', '-u', 'main.py', '--model', 'pllama_wols_small_patch16', '--batch-size', '16', '--epochs', '300', '--data-path', '/nws/user/lirenda621/Data/imagenet_1k', '--data-path', '/nws/user/lirenda621/Data/imagenet_1k', '--output_dir', '/nws/user/lirenda621/Code/VisionLLaMA/deit/debug', '--batch', '16', '--no-repeated-aug', '--seed', '0', '--drop-path', '0.2', '--dist-e^Cl']' returned non-zero exit status 1.
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************

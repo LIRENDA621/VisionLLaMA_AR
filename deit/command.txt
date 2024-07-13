@@ -1,0 +1,3 @@
+bash dist_train.sh pllama_wols_small_patch16 2 --data-path /nws/user/lirenda621/Data/imagenet_1k --output_dir cpt/pllama_wols_small_patch16_224_300_debug --batch 16 --no-repeated-aug   --seed 0 --drop-path 0.2  --dist-eval &> pllama_wols_small_patch16_224_300_debug.log
+bash dist_train.sh pllama_wols_small_patch16 4 --data-path /nws/user/lirenda621/Data/imagenet_1k --output_dir cpt/pllama_wols_small_patch16_224_300_casual_gap_twins --batch 256 --no-repeated-aug --
+casual_attn  --seed 0 --drop-path 0.2  --dist-eval &> pllama_wols_small_patch16_224_300_casual_gap_twins.log
