@@ -329,10 +329,10 @@ class RAttention(Attention):
         self.rpe_ratio = rpe_ratio
         self.casual_attn_1d = casual_attn_1d
         self.casual_attn_2d = casual_attn_2d
+        self.token_num = token_num
         
         if self.casual_attn_2d:
             assert token_num != None
-            self.token_num = token_num
             H = token_num ** 0.5
             flat_patch_pos = torch.arange(0, token_num)
             x_pos = flat_patch_pos // H
@@ -358,6 +358,15 @@ class RAttention(Attention):
                 new_mask[1: token_num + 1, 1:token_num + 1] = self.casual_mask
                 # new_mask[token_num, :] = 0
                 self.casual_mask = new_mask
+        elif self.casual_attn_1d:
+            casual_mask = create_causal_mask(token_num)
+            if use_cls_token:
+                new_mask = torch.full((token_num + 1, token_num + 1), float(0.))
+                new_mask[1: token_num + 1, 1:token_num + 1] = casual_mask
+                # new_mask[token_num, :] = 0
+                self.casual_mask = new_mask
+            # attn = attn + causal_mask.unsqueeze(0).unsqueeze(0)  # Apply causal mask
+
 
 
     def forward(self, x, freqs_cis):
@@ -376,10 +385,11 @@ class RAttention(Attention):
             v = v.transpose(1, 2)
 
             attn = (q @ k.transpose(-2, -1)) * self.scale
+            if self.casual_attn_2d or self.casual_attn_1d:
+                attn = attn + self.casual_mask.unsqueeze(0).unsqueeze(0).to(x.device)  # Apply causal mask
             attn = attn.softmax(dim=-1)
 
-            if self.casual_attn_2d:
-                attn = attn + self.casual_mask.unsqueeze(0).unsqueeze(0).to(x.device)  # Apply causal mask
+           
 
             attn = self.attn_drop(attn)
 
